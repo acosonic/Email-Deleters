@@ -8,6 +8,8 @@ A collection of tools for bulk email management across Gmail, Exchange on-premis
 
 Bulk-deletes Gmail threads matching a search query.
 
+![image](https://github.com/user-attachments/assets/02c6dbd3-f288-4ff8-851e-6e667b3aa15b)
+
 **Instructions:**
 1. Navigate to https://script.google.com/ and create a project
 2. Copy-paste `deleter.gs` into the code editor
@@ -18,6 +20,8 @@ Bulk-deletes Gmail threads matching a search query.
 The search query is defined in the first line — you can test it in Gmail search before running. Batch sizes and sleep timings are also configurable.
 
 > **Warning: this script DELETES EMAIL permanently.**
+
+![image](https://github.com/user-attachments/assets/393bbffd-be63-4c57-98ed-a1a48134a502)
 
 ---
 
