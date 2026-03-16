@@ -1,27 +1,69 @@
-# gmail_deleter
-Deletes emails in your inbox via Google Apps Script
+# Email Deleters
 
-If you have busy inbox or multiple inboxes, sometimes it's too much trouble and time
-required to manually delete all unread emails...
+A collection of tools for bulk email management across Gmail, Exchange on-premises, and Exchange Online.
 
-![image](https://github.com/user-attachments/assets/02c6dbd3-f288-4ff8-851e-6e667b3aa15b)
+---
 
+## `deleter.gs` — Gmail (Google Apps Script)
 
-## Instructions 
+Bulk-deletes Gmail threads matching a search query.
 
-1. Navigate to https://script.google.com/ and crete project
-2. Copy-paste deleter.gs into code editor
+**Instructions:**
+1. Navigate to https://script.google.com/ and create a project
+2. Copy-paste `deleter.gs` into the code editor
 3. Click the run button
 4. Allow necessary permissions
-5. Wait for script to finish
+5. Wait for the script to finish
 
+The search query is defined in the first line — you can test it in Gmail search before running. Batch sizes and sleep timings are also configurable.
 
-You can change search rules they are in first line, and you can experiment in 
-your gmail inbox search before deleting...
-Also batch sizes and timings.
+> **Warning: this script DELETES EMAIL permanently.**
 
-Keep in mind that this script DELETES EMAIL!
-You can also modify it 
+---
 
+## `exchange_ews.py` — Exchange on-premises (EWS)
 
-![image](https://github.com/user-attachments/assets/393bbffd-be63-4c57-98ed-a1a48134a502)
+Connects to an on-premises Exchange server via Exchange Web Services (EWS).
+
+**Requirements:** `pip install exchangelib`
+
+**Subcommands:**
+
+```
+# List all mail folders sorted by size
+python exchange_ews.py --server https://mail.example.com/EWS/Exchange.asmx \
+    --username DOMAIN\user --password pass --email user@example.com audit [--top N] [--skip-empty]
+
+# Show largest messages in a folder
+python exchange_ews.py ... biggest --folder "Inbox" [--top 20]
+
+# Delete all messages from a folder (folder itself is kept)
+python exchange_ews.py ... delete --folder "Deleted Items" [--yes] [--batch-size 100]
+```
+
+---
+
+## `exchange_online.py` — Exchange Online / Microsoft 365 (Graph API)
+
+Connects to Exchange Online via the Microsoft Graph API using MSAL device-flow authentication (no stored credentials).
+
+**Requirements:** `pip install requests msal`
+
+**Setup:** Register an Azure app with `Mail.ReadWrite` delegated permission and note the client ID and tenant ID.
+
+**Subcommands:**
+
+```
+# List all mail folders sorted by size
+python exchange_online.py --tenant <tenant-id> --client-id <client-id> audit [--top N]
+
+# Show largest messages in a folder
+python exchange_online.py ... biggest --folder "Inbox" [--top 20]
+
+# Delete all messages from a folder (folder itself is kept)
+python exchange_online.py ... delete --folder "Deleted Items" [--yes] [--batch-size 100]
+```
+
+Tenant ID and client ID can also be set via environment variables `M365_TENANT_ID` and `M365_CLIENT_ID`.
+
+> **Warning: the delete subcommand permanently removes email.**
