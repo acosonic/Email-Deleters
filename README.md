@@ -19,6 +19,8 @@ Bulk-deletes Gmail threads matching a search query.
 
 The search query is defined in the first line — you can test it in Gmail search before running. Batch sizes and sleep timings are also configurable.
 
+`MAX_RETRIES` controls how many times the script retries on error (default: 3).
+
 > **Warning: this script DELETES EMAIL permanently.**
 
 ![image](https://github.com/user-attachments/assets/393bbffd-be63-4c57-98ed-a1a48134a502)
